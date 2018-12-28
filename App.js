@@ -10,6 +10,9 @@ import React, {Component} from 'react';
 import {Platform, StyleSheet, Text, View} from 'react-native';
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
+import firebase from 'firebase';
+
+import keys from './config/keys';
 import reducers from './src/reducers';
 
 const instructions = Platform.select({
@@ -20,6 +23,27 @@ const instructions = Platform.select({
 });
 
 export default class App extends Component {
+  state = { loggedIn: null }
+
+  componentWillMount(){
+    firebase.initializeApp({
+      apiKey: keys.apiKey,
+      authDomain: keys.authDomain,
+      databaseURL: keys.databaseURL,
+      projectId: keys.projectId,
+      storageBucket: keys.storageBucket,
+      messagingSenderId: keys.storageBucket
+    });
+
+    firebase.auth().onAuthStateChanged((user) => {
+      if(user){
+        this.setState({loggedIn: true});
+      } else {
+        this.setState({loggedIn: false});
+      }
+    });
+  }
+
   render() {
     return (
       <Provider store={createStore(reducers)}>
