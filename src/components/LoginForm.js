@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import firebase from 'firebase';
 import { Text } from 'react-native';
+import * as actions from '../actions';
+import { connect } from 'react-redux';
 import { Card, Button, CardSection, Input, Spinner } from './common';
 
 class LoginForm extends Component {
@@ -52,6 +54,10 @@ class LoginForm extends Component {
     )
   }
 
+  onEmailChange(text){
+    this.props.emailChanged(text);
+  }
+
   render() {
     return (
       <Card>
@@ -60,7 +66,7 @@ class LoginForm extends Component {
             label='Email'
             placeholder='user@gmail.com'
             value={this.state.email}
-            onChangeText={text => this.setState({ email: text })}
+            onChangeText={this.onEmailChange.bind(this)}
           />
         </CardSection>
 
@@ -94,4 +100,4 @@ const styles = {
   }
 }
 
-export default LoginForm;
+export default connect(null, actions)(LoginForm);
