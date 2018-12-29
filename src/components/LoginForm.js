@@ -6,17 +6,9 @@ import { connect } from 'react-redux';
 import { Card, Button, CardSection, Input, Spinner } from './common';
 
 class LoginForm extends Component {
-  state = { 
-    email: '',
-    password: '',
-    error: '',
-    loading: false
-  };
 
   onButtonPress(){
     const { email, password } = this.state;
-
-    this.setState({ error: '', loading: true });
 
     firebase.auth().signInWithEmailAndPassword(email, password)
       .then(this.onLoginSuccess.bind(this))
@@ -27,24 +19,8 @@ class LoginForm extends Component {
       });
   }
 
-  onLoginFailed(){
-    this.setState({
-      error: 'Authentication Failed.',
-      loading: false
-    });
-  }
-
-  onLoginSuccess(){
-    this.setState({
-      email: '',
-      password: '',
-      error: '',
-      loading: false
-    });
-  }
-
   renderButton() {
-    if(this.state.loading){
+    if(this.props.loading){
       return <Spinner size='small' />
     }
     return (
@@ -56,6 +32,11 @@ class LoginForm extends Component {
 
   onEmailChange(text){
     this.props.emailChanged(text);
+    console.log(this.props.email);
+  }
+
+  onPasswordChange(text){
+    this.props.passwordChanged(text);
   }
 
   render() {
@@ -74,14 +55,14 @@ class LoginForm extends Component {
           <Input 
             label='Password'
             placeholder='password'
-            value={this.state.password}
-            onChangeText={text => this.setState({ password: text })}
+            value={this.props.password}
+            onChangeText={this.onPasswordChange.bind(this)}
             secureTextEntry
           />
         </CardSection>
 
         <Text style={styles.errorTextStyle}>
-          {this.state.error}
+          error
         </Text>
 
         <CardSection> 
@@ -100,10 +81,14 @@ const styles = {
   }
 }
 
-mapStateToProps = (state) => {
-  return {
-    email: state.auth.email
-  };
-};
+const mapStateToProps = state => ({
+    email: state.auth.email,
+    password: state.auth.password
+})
 
-export default connect(mapStateToProps, actions)(LoginForm);
+const mapDispatchToProps = dispatch => ({
+  emailChanged: text => dispatch(actions.emailChanged(text)),
+  passwordChanged: text => dispatch(actions.passwordChanged(text))
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(LoginForm);

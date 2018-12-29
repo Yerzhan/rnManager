@@ -7,7 +7,7 @@
  */
 
 import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View} from 'react-native';
+import {Platform, StyleSheet, SafeAreaView} from 'react-native';
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
 import firebase from 'firebase';
@@ -48,9 +48,9 @@ export default class App extends Component {
   render() {
     return (
       <Provider store={createStore(reducers)}>
-        <View style={styles.container}>
+        <SafeAreaView style={styles.container}>
           <LoginForm />
-        </View>
+        </SafeAreaView>
       </Provider>
     );
   }
@@ -58,10 +58,7 @@ export default class App extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
+    flex: 1
   },
   welcome: {
     fontSize: 20,
