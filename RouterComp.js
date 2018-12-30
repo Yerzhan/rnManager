@@ -1,11 +1,11 @@
 import React from 'react';
 import { Scene, Router, Actions } from 'react-native-router-flux';
-import LoginForm from './components/LoginForm';
-import EmployeeList from './components/EmployeeList';
-import EmployeeCreate from './components/EmployeeCreate';
-import EmployeeEdit from './components/EmployeeEdit';
+import LoginForm from './src/components/LoginForm';
+import EmployeeList from './src/components/EmployeeList';
+import EmployeeCreate from './src/components/EmployeeCreate';
+import EmployeeEdit from './src/components/EmployeeEdit';
 
-const RouterComponent = () => {
+const RouterComp = () => {
   return (
     <Router sceneStyle={{ paddingTop: 65 }}>
       <Scene key="auth">
@@ -28,4 +28,4 @@ const RouterComponent = () => {
   );
 };
 
-export default RouterComponent;
+export default RouterComp;

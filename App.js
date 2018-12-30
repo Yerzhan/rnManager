@@ -15,7 +15,7 @@ import ReduxThunk from 'redux-thunk';
 
 import keys from './config/keys';
 import reducers from './src/reducers';
-import Router from './Router';
+import RouterComp from './RouterComp';
 
 const instructions = Platform.select({
   ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
@@ -50,7 +50,7 @@ export default class App extends Component {
     return (
       <Provider store={createStore(reducers, {}, applyMiddleware(ReduxThunk))}>
         <SafeAreaView style={styles.container}>
-          <Router />
+          <RouterComp />
         </SafeAreaView>
       </Provider>
     );
