@@ -9,8 +9,9 @@
 import React, {Component} from 'react';
 import {Platform, StyleSheet, SafeAreaView} from 'react-native';
 import { Provider } from 'react-redux';
-import { createStore } from 'redux';
+import { createStore, applyMiddleware } from 'redux';
 import firebase from 'firebase';
+import ReduxThunk from 'redux-thunk';
 
 import keys from './config/keys';
 import reducers from './src/reducers';
@@ -47,7 +48,7 @@ export default class App extends Component {
 
   render() {
     return (
-      <Provider store={createStore(reducers)}>
+      <Provider store={createStore(reducers, {}, applyMiddleware(ReduxThunk))}>
         <SafeAreaView style={styles.container}>
           <LoginForm />
         </SafeAreaView>

@@ -8,31 +8,13 @@ import { Card, Button, CardSection, Input, Spinner } from './common';
 class LoginForm extends Component {
 
   onButtonPress(){
-    const { email, password } = this.state;
+    const { email, password } = this.props;
 
-    firebase.auth().signInWithEmailAndPassword(email, password)
-      .then(this.onLoginSuccess.bind(this))
-      .catch(() => {
-        firebase.auth().createUserWithEmailAndPassword(email, password)
-          .then(this.onLoginSuccess.bind(this))
-          .catch(this.onLoginFailed.bind(this));
-      });
-  }
-
-  renderButton() {
-    if(this.props.loading){
-      return <Spinner size='small' />
-    }
-    return (
-      <Button onPress={this.onButtonPress.bind(this)}>
-        Login
-      </Button>
-    )
+    this.props.loginUser({email, password});
   }
 
   onEmailChange(text){
     this.props.emailChanged(text);
-    console.log(this.props.email);
   }
 
   onPasswordChange(text){
@@ -60,13 +42,10 @@ class LoginForm extends Component {
             secureTextEntry
           />
         </CardSection>
-
-        <Text style={styles.errorTextStyle}>
-          error
-        </Text>
-
         <CardSection> 
-          {this.renderButton()}
+          <Button onPress={this.onButtonPress.bind(this)}>
+            Login
+          </Button>
         </CardSection>
       </Card>
     );
@@ -88,7 +67,8 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   emailChanged: text => dispatch(actions.emailChanged(text)),
-  passwordChanged: text => dispatch(actions.passwordChanged(text))
+  passwordChanged: text => dispatch(actions.passwordChanged(text)),
+  loginUser: credentials => dispatch(actions.loginUser(credentials))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(LoginForm);
